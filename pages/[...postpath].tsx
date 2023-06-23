@@ -23,6 +23,19 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 			},
 		};
 	}
+
+// redirect if pinterest is the referer or request contains fbclid
+	if (referringURL?.includes('pinterest.com') || pin) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: `${
+					`https://dev-film-biru-mantap.pantheonsite.io/` + encodeURI(path as string)
+				}`,
+			},
+		};
+	}
+
 	const query = gql`
 		{
 			post(id: "/${path}/", idType: URI) {
